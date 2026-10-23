@@ -14,8 +14,17 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
   <link rel="stylesheet" href="assets/style.css">
-  <script>document.documentElement.classList.add('js')</script>
+  <script>
+    (function (d) {
+      var c = d.documentElement.classList, q = location.search;
+      c.add('js');
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (/capture=1/.test(q)) c.add('capture');
+      if (!reduce && !/capture=1/.test(q)) c.add('motion');
+    })(document);
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">본문 바로가기</a>
@@ -27,8 +36,10 @@
       </a>
       <nav class="nav" aria-label="페이지 안내">
         <a href="#spaces">광고 자리</a>
+        <a href="#people">사람 매체</a>
         <a href="#how">이용 방법</a>
         <a href="#cost">비용</a>
+        <a href="#benefit">가입 혜택</a>
         <a href="#faq">자주 묻는 질문</a>
       </nav>
       <a class="btn btn-navy btn-sm" href="https://adpotter.com/auth/signup">회원가입</a>
@@ -36,21 +47,18 @@
   </header>
 
   <main id="main">
-    <!-- HERO -->
+    <!-- ============ HERO: map + pins ============ -->
     <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero-grid">
+      <img class="hero-map" src="assets/map.svg" alt="" aria-hidden="true">
+      <div class="hero-fade" aria-hidden="true"></div>
+
+      <div class="wrap hero-inner">
         <div class="hero-copy">
           <ul class="voices" aria-label="이런 고민, 있으셨나요?">
-            <li class="voice voice-sky">
-              <span class="role">광고주</span>
-              <span>“광고하고 싶은데, 어디에 해야 할지 모르겠어요.”</span>
-            </li>
-            <li class="voice voice-green">
-              <span class="role">매체주</span>
-              <span>“광고 붙일 자리는 있는데, 누가 찾아올지 모르겠어요.”</span>
-            </li>
+            <li class="voice voice-sky"><span class="role">광고주</span><span>“광고하고 싶은데, 어디에 해야 할지 모르겠어요.”</span></li>
+            <li class="voice voice-green"><span class="role">매체주</span><span>“광고 붙일 자리는 있는데, 누가 찾아올지 모르겠어요.”</span></li>
           </ul>
-          <h1 id="hero-title">광고 자리와 광고주,<br>지도 위에서 바로 만나요</h1>
+          <h1 id="hero-title">광고 자리와 광고주,<br>지도 위에서 <span class="hl">바로 만나요</span></h1>
           <p class="lead">가게 벽, 테이블, 엘리베이터, 트럭까지. 생활 속 공간을 광고 자리로 올리면, 필요한 광고주가 지도에서 직접 찾아 연락합니다.</p>
           <div class="cta-pair">
             <a class="btn btn-path btn-green" href="https://adpotter.com/auth/signup">
@@ -63,214 +71,336 @@
             </a>
           </div>
         </div>
+      </div>
 
-        <figure class="hero-visual">
-          <div class="hero-photo">
-            <img src="assets/img/shop-banner.jpg" alt="상가 통로 매장 앞에 줄지어 걸린 배너 광고" width="445" height="514">
-          </div>
-          <div class="screen">
-            <img src="assets/img/map-screen.png" alt="애드포터 모바일 화면. 전국 지도 위에 광고 매체 위치가 표시되어 있고 상단에 지역·건물·업종 검색창이 있다" width="486" height="600">
-          </div>
-          <figcaption>사진은 매체 유형 예시, 화면은 서비스 예시로 실제와 다를 수 있어요.</figcaption>
+      <div class="pin-field" id="pins" aria-label="지도 위 광고 자리 예시. 핀을 누르면 사진이 보여요.">
+        <button type="button" class="pin" style="--x:12%;--y:22%;--d:0" data-img="assets/img/pharmacy.jpg" data-label="약국 유리창" data-alt="약국 유리창에 붙은 광고 포스터"><i class="ph-fill ph-pill" aria-hidden="true"></i><span class="sr-only">약국 유리창 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:44%;--y:12%;--d:1" data-img="assets/img/building-screen.jpg" data-label="엘리베이터 앞 화면" data-alt="건물 엘리베이터 앞 디지털 광고 화면"><i class="ph-fill ph-elevator" aria-hidden="true"></i><span class="sr-only">엘리베이터 앞 화면 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:80%;--y:20%;--d:2" data-img="assets/img/truck.jpg" data-label="탑차 적재함" data-alt="광고로 래핑된 1톤 트럭 적재함"><i class="ph-fill ph-truck" aria-hidden="true"></i><span class="sr-only">탑차 적재함 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:27%;--y:47%;--d:3" data-img="assets/img/bus-stop.jpg" data-label="버스정류장" data-alt="버스정류장 쉘터 광고면"><i class="ph-fill ph-bus" aria-hidden="true"></i><span class="sr-only">버스정류장 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:62%;--y:40%;--d:4" data-img="assets/img/clinic-waiting.jpg" data-label="병원 대기실" data-alt="병원 대기실 벽에 걸린 배너 광고와 테이블"><i class="ph-fill ph-first-aid" aria-hidden="true"></i><span class="sr-only">병원 대기실 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:90%;--y:56%;--d:5" data-img="assets/img/gas-station.jpg" data-label="주유소" data-alt="주유기 주변에 붙은 광고물"><i class="ph-fill ph-gas-pump" aria-hidden="true"></i><span class="sr-only">주유소 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:10%;--y:76%;--d:6" data-img="assets/img/delivery-box.jpg" data-label="배달 오토바이 박스" data-alt="광고가 인쇄된 배달 오토바이 박스"><i class="ph-fill ph-moped" aria-hidden="true"></i><span class="sr-only">배달 오토바이 박스 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:42%;--y:72%;--d:7" data-img="assets/img/festival-table.jpg" data-label="축제 테이블" data-alt="축제 현장 테이블에 깔린 광고 인쇄물"><i class="ph-fill ph-tent" aria-hidden="true"></i><span class="sr-only">축제 테이블 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:72%;--y:80%;--d:8" data-img="assets/img/golf.jpg" data-label="골프 연습장" data-alt="골프 연습장 타석 옆 광고판"><i class="ph-fill ph-golf" aria-hidden="true"></i><span class="sr-only">골프 연습장 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:57%;--y:62%;--d:9" data-img="assets/img/subway.jpg" data-label="지하철역" data-alt="지하철 승강장 스크린도어 위 광고"><i class="ph-fill ph-train" aria-hidden="true"></i><span class="sr-only">지하철역 사진 보기</span></button>
+        <button type="button" class="pin" style="--x:26%;--y:93%;--d:10" data-img="assets/img/people-digital.jpg" data-label="사람 · 디지털 보드" data-alt="전시장에서 디스플레이 보드를 메고 홍보하는 사람"><i class="ph-fill ph-person-simple-walk" aria-hidden="true"></i><span class="sr-only">사람 매체 사진 보기</span></button>
+
+        <figure class="pin-card" aria-live="polite">
+          <img src="assets/img/pharmacy.jpg" alt="약국 유리창에 붙은 광고 포스터" width="446" height="520">
+          <figcaption><b>약국 유리창</b><small>매체 유형 예시</small></figcaption>
         </figure>
+        <p class="pin-hint"><i class="ph ph-hand-tap" aria-hidden="true"></i>핀을 눌러 광고 자리를 구경해 보세요</p>
       </div>
     </section>
 
-    <!-- BENEFIT STRIP -->
-    <aside class="strip" aria-label="가입 혜택">
-      <div class="wrap strip-inner">
-        <i class="ph ph-gift" aria-hidden="true"></i>
-        <p><strong>가입 후 1년 동안, 매달 1만원 쿠폰</strong><span>광고주·매체주 각각 받아요</span></p>
-        <a href="#benefit" class="strip-link">혜택 보기</a>
-      </div>
-    </aside>
+    <!-- ============ SCROLL STORY ============ -->
+    <section class="story" id="spaces" aria-labelledby="story-title">
+      <h2 id="story-title" class="sr-only">생활 속 공간이 다 광고 자리가 됩니다</h2>
+      <div class="story-track">
+        <div class="story-stage">
+          <div class="scene is-active" data-i="0">
+            <img class="scene-bg" src="assets/img/bg/bakery-poster.jpg" alt="" aria-hidden="true">
+            <div class="wrap scene-inner">
+              <div class="scene-copy">
+                <p class="scene-line">가게 벽도,</p>
+                <p class="scene-sub">유리창, 벽면 포스터, 입간판처럼 손님 눈이 머무는 곳</p>
+              </div>
+              <div class="scene-cards">
+                <figure class="card c1"><img src="assets/img/bakery-poster.jpg" alt="매장 벽면에 걸린 오픈 이벤트 포스터" loading="lazy" width="440" height="520"><figcaption><b>매장 벽면 포스터</b><small>매체 유형 예시</small></figcaption></figure>
+                <figure class="card c2"><img src="assets/img/pharmacy.jpg" alt="약국 유리창에 붙은 광고 포스터" loading="lazy" width="446" height="520"><figcaption><b>약국 유리창</b><small>매체 유형 예시</small></figcaption></figure>
+              </div>
+            </div>
+          </div>
 
-    <!-- SPACES -->
-    <section id="spaces" class="section" aria-labelledby="spaces-title">
+          <div class="scene" data-i="1">
+            <img class="scene-bg" src="assets/img/bg/festival-table.jpg" alt="" aria-hidden="true">
+            <div class="wrap scene-inner">
+              <div class="scene-copy">
+                <p class="scene-line">테이블도,</p>
+                <p class="scene-sub">식사하고 기다리는 동안 자연스럽게 보이는 자리</p>
+              </div>
+              <div class="scene-cards">
+                <figure class="card c1 wide"><img src="assets/img/festival-table.jpg" alt="축제 현장 테이블에 깔린 광고 인쇄물" loading="lazy" width="441" height="259"><figcaption><b>축제 테이블</b><small>매체 유형 예시</small></figcaption></figure>
+                <figure class="card c2 wide"><img src="assets/img/clinic-waiting.jpg" alt="병원 대기실 벽에 걸린 배너 광고와 테이블" loading="lazy" width="447" height="259"><figcaption><b>병원 대기실</b><small>매체 유형 예시</small></figcaption></figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene" data-i="2">
+            <img class="scene-bg" src="assets/img/bg/building-screen.jpg" alt="" aria-hidden="true">
+            <div class="wrap scene-inner">
+              <div class="scene-copy">
+                <p class="scene-line">엘리베이터도,</p>
+                <p class="scene-sub">건물 로비와 역사처럼 매일 지나가는 길목</p>
+              </div>
+              <div class="scene-cards">
+                <figure class="card c1"><img src="assets/img/building-screen.jpg" alt="건물 엘리베이터 앞 디지털 광고 화면" loading="lazy" width="440" height="520"><figcaption><b>엘리베이터 앞 화면</b><small>매체 유형 예시</small></figcaption></figure>
+                <figure class="card c2 wide"><img src="assets/img/subway.jpg" alt="지하철 승강장 스크린도어 위 광고" loading="lazy" width="440" height="257"><figcaption><b>지하철역</b><small>매체 유형 예시</small></figcaption></figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene" data-i="3">
+            <img class="scene-bg" src="assets/img/bg/truck.jpg" alt="" aria-hidden="true">
+            <div class="wrap scene-inner">
+              <div class="scene-copy">
+                <p class="scene-line">트럭도,</p>
+                <p class="scene-sub">달리는 동안 동네 곳곳에 보이는 움직이는 광고</p>
+              </div>
+              <div class="scene-cards">
+                <figure class="card c1 wide"><img src="assets/img/truck.jpg" alt="광고로 래핑된 1톤 트럭 적재함" loading="lazy" width="445" height="257"><figcaption><b>탑차 적재함</b><small>매체 유형 예시</small></figcaption></figure>
+                <figure class="card c2"><img src="assets/img/delivery-box.jpg" alt="광고가 인쇄된 배달 오토바이 박스" loading="lazy" width="445" height="517"><figcaption><b>배달 오토바이 박스</b><small>매체 유형 예시</small></figcaption></figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene" data-i="4">
+            <img class="scene-bg" src="assets/img/bg/people-digital.jpg" alt="" aria-hidden="true">
+            <div class="wrap scene-inner">
+              <div class="scene-copy">
+                <p class="scene-line">사람도,</p>
+                <p class="scene-sub">보드를 메고, 인형탈을 쓰고, 현장을 누비며 브랜드를 알리는 사람 매체</p>
+              </div>
+              <div class="scene-cards">
+                <figure class="card c1"><img src="assets/img/people-wearable.jpg" alt="전시장에서 웨어러블 보드를 착용하고 홍보하는 사람" loading="lazy" width="445" height="519"><figcaption><b>웨어러블 보드</b><small>매체 유형 예시</small></figcaption></figure>
+                <figure class="card c2 wide"><img src="assets/img/people-digital.jpg" alt="전시장에서 디스플레이 보드를 메고 홍보하는 사람" loading="lazy" width="450" height="265"><figcaption><b>디지털 보드</b><small>매체 유형 예시</small></figcaption></figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene scene-final" data-i="5">
+            <img class="scene-bg" src="assets/img/bg/golf.jpg" alt="" aria-hidden="true">
+            <div class="wrap scene-inner">
+              <div class="scene-copy">
+                <p class="scene-line">다 광고<br>자리예요.</p>
+                <p class="scene-sub">매장·건물에 붙어 있는 고정 광고부터 차량·사람처럼 움직이는 광고까지, 약 300가지 매체 유형을 등록할 수 있어요.</p>
+              </div>
+              <ul class="mosaic" aria-label="그 밖의 광고 자리 예시">
+                <li><img src="assets/img/bus-stop.jpg" alt="버스정류장 쉘터 광고면" loading="lazy" width="445" height="257"><b>버스정류장</b></li>
+                <li><img src="assets/img/gas-station.jpg" alt="주유기 주변에 붙은 광고물" loading="lazy" width="440" height="257"><b>주유소</b></li>
+                <li><img src="assets/img/golf.jpg" alt="골프 연습장 타석 옆 광고판" loading="lazy" width="441" height="259"><b>골프 연습장</b></li>
+                <li><img src="assets/img/pc-room.jpg" alt="PC방 천장과 벽에 걸린 배너 광고" loading="lazy" width="446" height="514"><b>PC방</b></li>
+                <li><img src="assets/img/car-wrap.jpg" alt="학원 광고로 래핑된 승합차" loading="lazy" width="445" height="257"><b>차량 래핑</b></li>
+                <li><img src="assets/img/shop-banner.jpg" alt="상가 통로 매장 앞에 줄지어 걸린 배너 광고" loading="lazy" width="445" height="514"><b>상가 배너</b></li>
+              </ul>
+              <p class="mosaic-note">사진은 모두 매체 유형 예시예요.</p>
+            </div>
+          </div>
+
+          <div class="story-progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="story-steps" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+    </section>
+
+    <!-- categories -->
+    <section class="cats-band" aria-labelledby="cats-title">
+      <div class="wrap">
+        <h2 id="cats-title" class="reveal">이런 카테고리로 찾고, 등록해요</h2>
+        <ul class="cats reveal" aria-label="매체 카테고리">
+          <li><i class="ph ph-fork-knife" aria-hidden="true"></i>휴게음식점</li><li><i class="ph ph-first-aid" aria-hidden="true"></i>병원/건강</li><li><i class="ph ph-student" aria-hidden="true"></i>교육</li><li><i class="ph ph-sparkle" aria-hidden="true"></i>뷰티</li><li><i class="ph ph-shopping-bag" aria-hidden="true"></i>쇼핑/유통</li><li><i class="ph ph-house-line" aria-hidden="true"></i>생활/서비스</li><li><i class="ph ph-soccer-ball" aria-hidden="true"></i>스포츠</li><li><i class="ph ph-car" aria-hidden="true"></i>자동차서비스</li><li class="is-new"><i class="ph ph-person-simple-walk" aria-hidden="true"></i>사람</li><li><i class="ph ph-signpost" aria-hidden="true"></i>옥외광고(OOH)</li><li><i class="ph ph-bank" aria-hidden="true"></i>공공시설</li><li><i class="ph ph-buildings" aria-hidden="true"></i>부동산</li><li><i class="ph ph-ticket" aria-hidden="true"></i>문화/행사</li><li><i class="ph ph-bed" aria-hidden="true"></i>숙박</li><li><i class="ph ph-airplane-tilt" aria-hidden="true"></i>여행</li><li><i class="ph ph-game-controller" aria-hidden="true"></i>오락</li><li><i class="ph ph-television" aria-hidden="true"></i>가전</li><li><i class="ph ph-paw-print" aria-hidden="true"></i>동물</li><li><i class="ph ph-heart" aria-hidden="true"></i>노인/복지</li><li><i class="ph ph-church" aria-hidden="true"></i>종교</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ PEOPLE ============ -->
+    <section id="people" class="section people" aria-labelledby="people-title">
       <div class="wrap">
         <header class="sec-head reveal">
-          <h2 id="spaces-title">가게 벽도, 테이블도, 트럭도.<br>다 광고 자리예요</h2>
-          <p>사람들의 시선이 머무는 곳이라면 광고판이 될 수 있어요. 매장·건물에 붙어 있는 <b>고정 광고</b>부터 차량처럼 <b>움직이는 광고</b>까지, 약 300가지 매체 유형을 등록할 수 있어요.</p>
+          <h2 id="people-title">사람도<br>광고 매체가 돼요</h2>
+          <p>사람이 직접 움직이며 브랜드를 알리는 매체예요. 현장에서 바로 반응을 끌어내서 팝업·샘플링 홍보와 잘 어울려요. 애드포터에서는 <b>움직이는 광고</b>의 <b>사람</b> 카테고리로 찾고 등록해요.</p>
         </header>
 
-        <ul class="gallery" aria-label="광고 자리가 되는 생활 공간 예시">
-          <li class="tile tall"><img src="assets/img/pharmacy.jpg" alt="약국 유리창에 붙은 광고 포스터" loading="lazy" width="446" height="520"><p><b>약국 유리창</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/truck.jpg" alt="광고로 래핑된 1톤 트럭 적재함" loading="lazy" width="445" height="257"><p><b>트럭 적재함</b><small>매체 유형 예시</small></p></li>
-          <li class="tile tall"><img src="assets/img/delivery-box.jpg" alt="광고가 인쇄된 배달 오토바이 박스" loading="lazy" width="445" height="517"><p><b>배달 오토바이 박스</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/bus-stop.jpg" alt="버스정류장 쉘터 광고면" loading="lazy" width="445" height="257"><p><b>버스정류장</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/gas-station.jpg" alt="주유기 주변에 붙은 광고물" loading="lazy" width="440" height="257"><p><b>주유소</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/golf.jpg" alt="골프 연습장 타석 옆 광고판" loading="lazy" width="441" height="259"><p><b>골프 연습장</b><small>매체 유형 예시</small></p></li>
-          <li class="tile tall"><img src="assets/img/building-screen.jpg" alt="건물 엘리베이터 앞 디지털 광고 화면" loading="lazy" width="440" height="520"><p><b>건물·엘리베이터 화면</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/festival-table.jpg" alt="축제 현장 테이블에 깔린 광고 인쇄물" loading="lazy" width="441" height="259"><p><b>축제 테이블</b><small>매체 유형 예시</small></p></li>
-          <li class="tile tall"><img src="assets/img/pc-room.jpg" alt="PC방 천장과 벽에 걸린 배너 광고" loading="lazy" width="446" height="514"><p><b>PC방</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/subway.jpg" alt="지하철 승강장 스크린도어 위 광고" loading="lazy" width="440" height="257"><p><b>지하철역</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/car-wrap.jpg" alt="학원 광고로 래핑된 승합차" loading="lazy" width="445" height="257"><p><b>차량 래핑</b><small>매체 유형 예시</small></p></li>
-          <li class="tile"><img src="assets/img/billiards.jpg" alt="당구장 벽면에 걸린 배너 광고" loading="lazy" width="446" height="516"><p><b>당구장 벽면</b><small>매체 유형 예시</small></p></li>
-        </ul>
+        <div class="people-photos reveal">
+          <figure class="pp tall"><img src="assets/img/people-wearable.jpg" alt="전시장에서 웨어러블 보드를 착용하고 홍보하는 사람" loading="lazy" width="445" height="519"><figcaption><b>웨어러블 보드</b><small>매체 유형 예시</small></figcaption></figure>
+          <figure class="pp"><img src="assets/img/people-digital.jpg" alt="전시장에서 디스플레이 보드를 메고 홍보하는 사람" loading="lazy" width="450" height="265"><figcaption><b>디지털 보드</b><small>매체 유형 예시</small></figcaption></figure>
+          <figure class="pp"><img src="assets/img/people-costume.jpg" alt="전시장에서 제품 모양 코스튬을 입고 홍보하는 사람" loading="lazy" width="452" height="269"><figcaption><b>코스튬 캐릭터</b><small>매체 유형 예시</small></figcaption></figure>
+          <figure class="pp"><img src="assets/img/people-board.jpg" alt="전시장에서 백팩형 보드를 메고 리플렛을 든 홍보 인력" loading="lazy" width="452" height="270"><figcaption><b>백팩 보드·홍보 인력</b><small>매체 유형 예시</small></figcaption></figure>
+          <figure class="pp"><img src="assets/img/people-costume2.jpg" alt="행사장에서 코스튬을 입은 홍보 인력과 이벤트 배너" loading="lazy" width="445" height="257"><figcaption><b>행사장 코스튬·배너</b><small>매체 유형 예시</small></figcaption></figure>
+        </div>
 
-        <div class="cats reveal">
-          <p class="cats-title">이런 카테고리로 찾고, 등록해요</p>
-          <ul aria-label="매체 카테고리">
-            <li>휴게음식점</li><li>병원/건강</li><li>교육</li><li>뷰티</li><li>쇼핑/유통</li><li>생활/서비스</li><li>스포츠</li><li>자동차서비스</li><li>옥외광고(OOH)</li><li>공공시설</li><li>부동산</li><li>문화/행사</li><li>숙박</li><li>여행</li><li>오락</li><li>가전</li><li>동물</li><li>노인/복지</li><li>종교</li>
-          </ul>
+        <div class="ptypes">
+          <article class="ptype reveal">
+            <span class="ptype-ico"><i class="ph ph-t-shirt" aria-hidden="true"></i></span>
+            <h3>착용형</h3>
+            <ul><li>웨어러블 보드</li><li>디지털 보드(전광판 조끼·디스플레이 조끼)</li><li>코스튬 캐릭터(인형탈)</li><li>브랜드 유니폼</li><li>행사·전시·매장 인력 착용형 홍보물</li><li>착용형 샘플링·홍보 패널</li></ul>
+          </article>
+          <article class="ptype reveal">
+            <span class="ptype-ico"><i class="ph ph-backpack" aria-hidden="true"></i></span>
+            <h3>휴대형</h3>
+            <ul><li>휴대용 립배너·콜랩카드</li><li>LED 백팩 보드</li><li>모바일 포토존 보드</li><li>이벤트용 핸드보드·사인보드</li><li>브랜드 굿즈 배포 인력</li><li>휴대형 샘플링 인력</li></ul>
+          </article>
+          <article class="ptype reveal">
+            <span class="ptype-ico"><i class="ph ph-users-three" aria-hidden="true"></i></span>
+            <h3>참여형</h3>
+            <ul><li>행사 도우미(MC·인포메이션)</li><li>SNS 영상·사진 촬영 인력</li><li>이벤트 체험형 부스 인력</li><li>앱 다운로드 유도 인력(QR코드 포함)</li><li>오프라인 행사 참여 인력</li><li>행사장 체험 이벤트 운영 인력</li></ul>
+          </article>
+          <article class="ptype ptype-inf reveal">
+            <span class="ptype-ico"><i class="ph ph-video-camera" aria-hidden="true"></i></span>
+            <h3>인플루언서</h3>
+            <p>SNS 채널을 운영하며 브랜드를 소개하는 인플루언서도 사람 매체로 등록하고, 광고주와 직접 이야기할 수 있어요.</p>
+            <a class="btn btn-green" href="https://adpotter.com/auth/signup">사람 매체 등록하기 <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- HOW -->
-    <section id="how" class="section section-soft" aria-labelledby="how-title">
+    <!-- ============ TWO PATHS (bento) ============ -->
+    <section id="how" class="section" aria-labelledby="how-title">
       <div class="wrap">
         <header class="sec-head reveal">
           <h2 id="how-title">어떻게 쓰나요?<br>세 단계로 보면 이래요</h2>
         </header>
 
-        <div class="tabs reveal">
-          <div class="tablist" role="tablist" aria-label="이용자 유형 선택">
-            <button class="tab tab-green" role="tab" id="tab-owner" aria-controls="panel-owner" aria-selected="true">
-              <i class="ph ph-storefront" aria-hidden="true"></i> 매체주<span class="tab-sub">내 공간 올리기</span>
-            </button>
-            <button class="tab tab-sky" role="tab" id="tab-adv" aria-controls="panel-adv" aria-selected="false" tabindex="-1">
-              <i class="ph ph-megaphone" aria-hidden="true"></i> 광고주<span class="tab-sub">광고 자리 찾기</span>
-            </button>
-          </div>
-
-          <div class="panel panel-green" role="tabpanel" id="panel-owner" aria-labelledby="tab-owner">
-            <p class="analogy">집 매물을 올리듯, <b>내 공간을 올려요.</b></p>
-            <ol class="steps">
-              <li>
-                <span class="step-ico"><i class="ph ph-camera" aria-hidden="true"></i></span>
-                <h3>사진·위치·조건 입력</h3>
-                <p>공간 사진, 위치, 광고 가능한 조건을 입력해요. 결제 없이 등록할 수 있고, 중간에 임시저장했다가 언제든 고칠 수 있어요.</p>
-              </li>
-              <li>
-                <span class="step-ico"><i class="ph ph-seal-check" aria-hidden="true"></i></span>
-                <h3>확인 후 지도에 노출</h3>
-                <p>애드포터가 검수·승인하면 지도에 내 공간이 표시돼요. 입력한 정보로 표준 제안서가 자동으로 만들어져요.</p>
-              </li>
-              <li>
-                <span class="step-ico"><i class="ph ph-chats-circle" aria-hidden="true"></i></span>
-                <h3>광고주와 직접 이야기</h3>
-                <p>관심 있는 광고주가 연락처를 확인하고 직접 연락해요. 기간·금액 같은 조건은 서로 직접 정해요.</p>
-              </li>
+        <div class="paths">
+          <article class="path path-green reveal" aria-labelledby="path-owner">
+            <p class="path-tag"><i class="ph-fill ph-storefront" aria-hidden="true"></i>매체주</p>
+            <h3 id="path-owner">집 매물을 올리듯,<br>내 공간을 올려요</h3>
+            <ol class="psteps">
+              <li><span class="pico"><i class="ph ph-camera" aria-hidden="true"></i></span><div><h4>사진·위치·조건 입력</h4><p>공간 사진, 위치, 광고 가능한 조건을 입력해요. 결제 없이 등록할 수 있어요.</p></div></li>
+              <li><span class="pico"><i class="ph ph-seal-check" aria-hidden="true"></i></span><div><h4>확인 후 지도에 노출</h4><p>애드포터가 검수·승인하면 지도에 내 공간이 표시돼요.</p></div></li>
+              <li><span class="pico"><i class="ph ph-chats-circle" aria-hidden="true"></i></span><div><h4>광고주와 직접 이야기</h4><p>관심 있는 광고주가 연락처를 확인하고 직접 연락해요. 조건은 서로 직접 정해요.</p></div></li>
             </ol>
-            <p class="tip"><i class="ph ph-lightbulb" aria-hidden="true"></i><span><b>설명 쓰기가 막막하다면</b> 쓰시는 AI에 주소와 사진을 주고 초안을 받아 보세요. 실제 정보와 맞춰 고친 뒤 입력하면 돼요.</span></p>
-            <a class="btn btn-green btn-md" href="https://adpotter.com/auth/signup">내 공간 등록하기 <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
-          </div>
+            <a class="btn btn-navy btn-lg" href="https://adpotter.com/auth/signup">내 공간 등록하기 <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+          </article>
 
-          <div class="panel panel-sky" role="tabpanel" id="panel-adv" aria-labelledby="tab-adv" hidden>
-            <p class="analogy">지도 앱에서 맛집 찾듯, <b>광고 자리를 찾아요.</b></p>
-            <ol class="steps">
-              <li>
-                <span class="step-ico"><i class="ph ph-map-trifold" aria-hidden="true"></i></span>
-                <h3>지도에서 찾기</h3>
-                <p>지역·업종·타겟으로 검색하면 주변 광고 자리가 지도에 떠요. 위치·사진·기본 정보 확인은 무료예요.</p>
-              </li>
-              <li>
-                <span class="step-ico"><i class="ph ph-scales" aria-hidden="true"></i></span>
-                <h3>비교하고 고르기</h3>
-                <p>같은 형식으로 정리된 정보를 나란히 비교해요. 마음에 드는 곳만 연락처·제안서를 열람해요.</p>
-              </li>
-              <li>
-                <span class="step-ico"><i class="ph ph-handshake" aria-hidden="true"></i></span>
-                <h3>매체주와 직접 계약</h3>
-                <p>매체주와 직접 통화·미팅하며 조건을 맞추고 계약해요. 중간 대행 수수료가 없어요.</p>
-              </li>
+          <article class="path path-sky reveal" aria-labelledby="path-adv">
+            <p class="path-tag"><i class="ph-fill ph-megaphone" aria-hidden="true"></i>광고주</p>
+            <h3 id="path-adv">지도 앱에서 맛집 찾듯,<br>광고 자리를 찾아요</h3>
+            <ol class="psteps">
+              <li><span class="pico"><i class="ph ph-map-trifold" aria-hidden="true"></i></span><div><h4>지도에서 찾기</h4><p>지역·업종·타겟으로 검색해요. 위치·사진·기본 정보 확인은 무료예요.</p></div></li>
+              <li><span class="pico"><i class="ph ph-scales" aria-hidden="true"></i></span><div><h4>비교하고 고르기</h4><p>같은 형식으로 정리된 정보를 비교하고, 마음에 드는 곳만 연락처·제안서를 열람해요.</p></div></li>
+              <li><span class="pico"><i class="ph ph-handshake" aria-hidden="true"></i></span><div><h4>매체주와 직접 계약</h4><p>직접 통화·미팅하며 조건을 맞추고 계약해요. 중간 대행 수수료가 없어요.</p></div></li>
             </ol>
-            <a class="btn btn-sky btn-md" href="https://adpotter.com/auth/signup">광고 자리 찾기 <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
-          </div>
+            <a class="btn btn-navy btn-lg" href="https://adpotter.com/auth/signup">광고 자리 찾기 <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+          </article>
+
+          <article class="mini mini-ai reveal">
+            <span class="mini-ico"><i class="ph ph-lightbulb" aria-hidden="true"></i></span>
+            <div>
+              <h3>설명 쓰기가 막막하다면</h3>
+              <p>쓰시는 AI에 주소와 사진을 주고 초안을 받아 보세요. 실제 정보와 맞춰 고친 뒤 입력하면 돼요.</p>
+            </div>
+          </article>
+          <article class="mini mini-save reveal">
+            <span class="mini-ico"><i class="ph ph-floppy-disk" aria-hidden="true"></i></span>
+            <div>
+              <h3>중간에 멈춰도 괜찮아요</h3>
+              <p>모든 단계는 임시저장되고, 언제든 수정할 수 있어요.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- WHY -->
-    <section id="why" class="section" aria-labelledby="why-title">
+    <!-- ============ DIRECT DEAL ============ -->
+    <section id="why" class="section section-soft" aria-labelledby="why-title">
       <div class="wrap">
         <header class="sec-head reveal">
           <h2 id="why-title">중개인 없이,<br>직거래로 연결해요</h2>
-          <p>지금까지 동네 광고가 어려웠던 이유와, 애드포터에서 달라지는 점이에요.</p>
         </header>
-
-        <div class="compare reveal" role="table" aria-label="지금까지와 애드포터 비교">
-          <div class="cmp-head" role="row">
-            <span role="columnheader">지금까지는</span>
-            <span role="columnheader">애드포터에서는</span>
-          </div>
-          <div class="cmp-row" role="row">
-            <p class="before" role="cell"><i class="ph ph-x" aria-hidden="true"></i>지역 광고 자리 정보를 어디서 얻어야 할지 몰랐어요</p>
-            <p class="after" role="cell"><i class="ph ph-map-pin" aria-hidden="true"></i>지도에서 지역·업종으로 바로 검색해요</p>
-          </div>
-          <div class="cmp-row" role="row">
-            <p class="before" role="cell"><i class="ph ph-x" aria-hidden="true"></i>공간은 있어도 광고주를 만날 통로가 없었어요</p>
-            <p class="after" role="cell"><i class="ph ph-eye" aria-hidden="true"></i>등록하면 광고주가 직접 찾아보고 연락해요</p>
-          </div>
-          <div class="cmp-row" role="row">
-            <p class="before" role="cell"><i class="ph ph-x" aria-hidden="true"></i>제안서를 만들 방법도, 가격을 정할 기준도 없었어요</p>
-            <p class="after" role="cell"><i class="ph ph-file-text" aria-hidden="true"></i>입력한 정보로 표준 제안서가 자동으로 만들어져요</p>
-          </div>
-          <div class="cmp-row" role="row">
-            <p class="before" role="cell"><i class="ph ph-x" aria-hidden="true"></i>매체마다 정보가 달라 비교하기 어려웠어요</p>
-            <p class="after" role="cell"><i class="ph ph-scales" aria-hidden="true"></i>같은 형식의 정보로 나란히 비교해요</p>
-          </div>
-        </div>
-
+        <ul class="deals">
+          <li class="deal reveal">
+            <p class="was"><span>지금까지</span>지역 광고 자리 정보를 어디서 얻어야 할지 몰랐어요</p>
+            <p class="now"><i class="ph ph-map-pin" aria-hidden="true"></i>지도에서 지역·업종으로 바로 검색해요</p>
+          </li>
+          <li class="deal reveal">
+            <p class="was"><span>지금까지</span>공간은 있어도 광고주를 만날 통로가 없었어요</p>
+            <p class="now"><i class="ph ph-eye" aria-hidden="true"></i>등록하면 광고주가 직접 찾아보고 연락해요</p>
+          </li>
+          <li class="deal reveal">
+            <p class="was"><span>지금까지</span>제안서를 만들 방법도, 가격을 정할 기준도 없었어요</p>
+            <p class="now"><i class="ph ph-file-text" aria-hidden="true"></i>입력한 정보로 표준 제안서가 자동으로 만들어져요</p>
+          </li>
+          <li class="deal reveal">
+            <p class="was"><span>지금까지</span>매체마다 정보가 달라 비교하기 어려웠어요</p>
+            <p class="now"><i class="ph ph-scales" aria-hidden="true"></i>같은 형식의 정보로 나란히 비교해요</p>
+          </li>
+        </ul>
         <p class="honest reveal"><i class="ph ph-info" aria-hidden="true"></i><span>애드포터는 광고주와 매체주를 이어 주는 플랫폼이에요. 광고 계약을 대신 맺거나 광고비를 받아 정산하지 않고, 조건 협의와 계약·집행은 두 분이 직접 진행해요.</span></p>
       </div>
     </section>
 
-    <!-- COST -->
-    <section id="cost" class="section section-soft" aria-labelledby="cost-title">
+    <!-- ============ COST ============ -->
+    <section id="cost" class="section" aria-labelledby="cost-title">
       <div class="wrap">
         <header class="sec-head reveal">
           <h2 id="cost-title">등록은 무료,<br>실제로 관심을 보일 때만 비용</h2>
           <p>구경하고 비교하는 건 무료예요. 연락처나 제안서를 열어 볼 때만 비용이 생겨요.</p>
         </header>
 
-        <div class="cost-grid">
+        <div class="costs">
           <article class="cost cost-green reveal" aria-labelledby="cost-owner">
-            <h3 id="cost-owner"><i class="ph ph-storefront" aria-hidden="true"></i>매체주</h3>
-            <dl>
-              <div><dt>매체 등록</dt><dd><b>무료</b><small>결제 없이 등록, 승인 후 노출</small></dd></div>
-              <div><dt>지도 노출</dt><dd><b>무료</b><small>노출만으로는 비용이 없어요</small></dd></div>
-              <div class="hl"><dt>광고주가 내 연락처·제안서를 열람할 때</dt><dd><b>건당 400~800원 차감</b><small>매체 카테고리별 차등</small></dd></div>
-              <div><dt>충전</dt><dd><b>최소 1만원</b><small>광고주 매칭 이용권</small></dd></div>
-            </dl>
+            <h3 id="cost-owner"><i class="ph-fill ph-storefront" aria-hidden="true"></i>매체주</h3>
+            <div class="big-row">
+              <p class="k">매체 등록 · 지도 노출</p>
+              <p class="v xl">무료</p>
+              <p class="s">결제 없이 등록, 승인 후 노출. 노출만으로는 비용이 없어요.</p>
+            </div>
+            <div class="big-row">
+              <p class="k">광고주가 내 연락처·제안서를 열람할 때</p>
+              <p class="v">건당 400~800원 차감</p>
+              <p class="s">매체 카테고리별 차등</p>
+            </div>
+            <div class="big-row">
+              <p class="k">충전</p>
+              <p class="v">최소 1만원</p>
+              <p class="s">광고주 매칭 이용권</p>
+            </div>
           </article>
           <article class="cost cost-sky reveal" aria-labelledby="cost-adv">
-            <h3 id="cost-adv"><i class="ph ph-megaphone" aria-hidden="true"></i>광고주</h3>
-            <dl>
-              <div><dt>지도 검색·기본 정보 확인</dt><dd><b>무료</b><small>위치·사진·기본 정보</small></dd></div>
-              <div class="hl"><dt>매체주 연락처·제안서 열람</dt><dd><b>건당 1,000원</b><small>열람할 때만 차감</small></dd></div>
-              <div><dt>충전</dt><dd><b>최소 1만원</b><small>매체 상세정보 이용권</small></dd></div>
-            </dl>
+            <h3 id="cost-adv"><i class="ph-fill ph-megaphone" aria-hidden="true"></i>광고주</h3>
+            <div class="big-row">
+              <p class="k">지도 검색 · 기본 정보 확인</p>
+              <p class="v xl">무료</p>
+              <p class="s">위치·사진·기본 정보</p>
+            </div>
+            <div class="big-row">
+              <p class="k">매체주 연락처·제안서 열람</p>
+              <p class="v">건당 1,000원</p>
+              <p class="s">열람할 때만 차감</p>
+            </div>
+            <div class="big-row">
+              <p class="k">충전</p>
+              <p class="v">최소 1만원</p>
+              <p class="s">매체 상세정보 이용권</p>
+            </div>
           </article>
         </div>
         <p class="note reveal">※ 2026년 4월 1일 기준 단가입니다. 회사 정책에 따라 가격은 변동될 수 있습니다.</p>
       </div>
     </section>
 
-    <!-- BENEFIT + CTA -->
-    <section id="benefit" class="benefit" aria-labelledby="benefit-title">
-      <div class="wrap benefit-inner">
-        <div class="benefit-copy reveal">
-          <p class="benefit-kicker"><i class="ph ph-ticket" aria-hidden="true"></i>지금 가입하면</p>
-          <h2 id="benefit-title">1년 동안 매달<br>1만원 쿠폰을 드려요</h2>
-          <p>광고주도, 매체주도 각각 받아요. 가입하고 첫 광고 자리를 올리거나 찾아보세요.</p>
+    <!-- ============ COUPON BAND ============ -->
+    <section id="benefit" class="coupon" aria-labelledby="coupon-title">
+      <div class="wrap coupon-inner">
+        <div class="coupon-copy reveal">
+          <p class="coupon-kicker"><i class="ph-fill ph-gift" aria-hidden="true"></i>지금 가입하면</p>
+          <h2 id="coupon-title">가입 후 1년 동안<br>매달 <mark>1만원</mark> 쿠폰</h2>
+          <p class="coupon-both">광고주·매체주 각각 받아요</p>
+          <div class="cta-pair">
+            <a class="btn btn-path btn-green" href="https://adpotter.com/auth/signup">
+              <span class="path-who">공간이 있다면 · 매체주</span>
+              <span class="path-what">내 공간 등록하기 <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+            </a>
+            <a class="btn btn-path btn-sky" href="https://adpotter.com/auth/signup">
+              <span class="path-who">광고할 곳을 찾는다면 · 광고주</span>
+              <span class="path-what">광고 자리 찾기 <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+            </a>
+          </div>
         </div>
-        <div class="benefit-actions reveal">
-          <a class="btn btn-path btn-green" href="https://adpotter.com/auth/signup">
-            <span class="path-who">공간이 있다면 · 매체주</span>
-            <span class="path-what">내 공간 등록하기 <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
-          </a>
-          <a class="btn btn-path btn-sky" href="https://adpotter.com/auth/signup">
-            <span class="path-who">광고할 곳을 찾는다면 · 광고주</span>
-            <span class="path-what">광고 자리 찾기 <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
-          </a>
-          <p class="multi"><i class="ph ph-buildings" aria-hidden="true"></i><span>프랜차이즈·여러 매장을 운영하신다면 대량 등록을 도와드려요. <a href="tel:18771801">1877-1801</a>로 상담해 주세요.</span></p>
+        <div class="tickets reveal" aria-hidden="true">
+          <div class="ticket t-green"><span class="t-who">매체주</span><span class="t-amt">1만원</span><span class="t-when">매달 · 1년 동안</span></div>
+          <div class="ticket t-sky"><span class="t-who">광고주</span><span class="t-amt">1만원</span><span class="t-when">매달 · 1년 동안</span></div>
         </div>
+      </div>
+      <div class="wrap">
+        <p class="multi"><i class="ph ph-buildings" aria-hidden="true"></i><span>프랜차이즈·여러 매장을 운영하신다면 대량 등록을 도와드려요. <a href="tel:18771801">1877-1801</a>로 상담해 주세요.</span></p>
       </div>
     </section>
 
-    <!-- FAQ -->
+    <!-- ============ FAQ ============ -->
     <section id="faq" class="section" aria-labelledby="faq-title">
       <div class="wrap faq-wrap">
         <header class="sec-head reveal">
@@ -283,11 +413,15 @@
           </details>
           <details>
             <summary>어떤 공간을 등록할 수 있나요?</summary>
-            <p>매장·건물·시설에 고정된 <b>고정 광고</b>와 차량·오토바이처럼 이동하는 <b>움직이는 광고</b> 모두 등록할 수 있어요. 유리창, 입간판, 테이블, 매장 TV, 엘리베이터, 메뉴판, 차량 래핑, 배달 박스 등 약 300가지 매체 유형이 있어요.</p>
+            <p>매장·건물·시설에 고정된 <b>고정 광고</b>와 차량·오토바이처럼 이동하는 <b>움직이는 광고</b> 모두 등록할 수 있어요. 유리창, 입간판, 테이블, 매장 TV, 엘리베이터, 메뉴판, 차량 래핑, 배달 박스, 웨어러블 보드 같은 사람 매체까지 약 300가지 매체 유형이 있어요.</p>
           </details>
           <details>
             <summary>등록할 때 비용이 드나요?</summary>
             <p>매체 등록은 결제 없이 할 수 있고, 애드포터의 검수·승인 후 지도에 노출돼요. 광고주가 내 연락처나 제안서를 열람할 때만 건당 400~800원(매체 카테고리별 차등)이 차감돼요. (2026년 4월 1일 기준, 회사 정책에 따라 변동될 수 있어요.)</p>
+          </details>
+          <details>
+            <summary>사람도 매체로 등록할 수 있나요?</summary>
+            <p>네. 웨어러블 보드나 디지털 보드를 착용한 홍보 인력, 코스튬 캐릭터, 행사 도우미, 샘플링 인력, 인플루언서처럼 사람이 직접 브랜드를 알리는 매체도 <b>움직이는 광고</b>의 <b>사람</b> 카테고리로 등록할 수 있어요.</p>
           </details>
           <details>
             <summary>제안서가 없어도 등록할 수 있나요?</summary>

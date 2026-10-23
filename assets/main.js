@@ -1,37 +1,85 @@
 (function () {
-  // Tabs (매체주 / 광고주)
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
-  function select(tab, focus) {
-    tabs.forEach(function (t) {
-      var on = t === tab;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      t.tabIndex = on ? 0 : -1;
-      var panel = document.getElementById(t.getAttribute('aria-controls'));
-      if (!panel) return;
-      panel.hidden = !on;
-      if (on) { panel.classList.remove('enter'); void panel.offsetWidth; panel.classList.add('enter'); }
+  var root = document.documentElement;
+  var motion = root.classList.contains('motion');
+  var hasIO = 'IntersectionObserver' in window;
+
+  /* ---------- Hero pins ---------- */
+  var field = document.getElementById('pins');
+  if (field) {
+    var pins = Array.prototype.slice.call(field.querySelectorAll('.pin'));
+    var card = field.querySelector('.pin-card');
+    var img = card.querySelector('img');
+    var label = card.querySelector('b');
+    var current = -1, timer = null, pausedUntil = 0, heroVisible = true;
+
+    function place(pin) {
+      var tipX = pin.offsetLeft, tipY = pin.offsetTop;
+      var cw = card.offsetWidth, ch = card.offsetHeight, fw = field.clientWidth;
+      var top = tipY - 62 - ch;
+      if (top < -24) top = tipY + 16;
+      var left = Math.max(0, Math.min(fw - cw, tipX - cw / 2));
+      card.style.left = left + 'px';
+      card.style.top = top + 'px';
+    }
+    function select(i) {
+      var pin = pins[i];
+      if (!pin) return;
+      pins.forEach(function (p, k) { p.classList.toggle('is-active', k === i); p.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+      img.src = pin.getAttribute('data-img');
+      img.alt = pin.getAttribute('data-alt');
+      label.textContent = pin.getAttribute('data-label');
+      card.classList.remove('show');
+      place(pin);
+      void card.offsetWidth;
+      card.classList.add('show');
+      current = i;
+    }
+    pins.forEach(function (pin, i) {
+      pin.addEventListener('click', function () { pausedUntil = Date.now() + 9000; select(i); });
+      pin.addEventListener('mouseenter', function () { if (window.matchMedia('(hover: hover)').matches) { pausedUntil = Date.now() + 9000; select(i); } });
     });
-    if (focus) tab.focus();
+    window.addEventListener('resize', function () { if (current >= 0) place(pins[current]); });
+
+    if (motion) {
+      setTimeout(function () {
+        select(0);
+        timer = setInterval(function () {
+          if (!heroVisible || document.hidden || Date.now() < pausedUntil) return;
+          select((current + 1) % pins.length);
+        }, 3400);
+      }, 1700);
+      if (hasIO) {
+        new IntersectionObserver(function (en) { heroVisible = en[0].isIntersecting; }).observe(field);
+      }
+    } else {
+      select(0);
+    }
   }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { select(t, false); });
-    t.addEventListener('keydown', function (e) {
-      var n = null;
-      if (e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
-      if (e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
-      if (e.key === 'Home') n = tabs[0];
-      if (e.key === 'End') n = tabs[tabs.length - 1];
-      if (n) { e.preventDefault(); select(n, true); }
-    });
-  });
 
-  // Stagger index for gallery tiles
-  document.querySelectorAll('.gallery .tile').forEach(function (el, i) { el.style.setProperty('--i', i); });
+  /* ---------- Scroll story ---------- */
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.story-progress span'));
+  document.querySelectorAll('.mosaic li').forEach(function (li, k) { li.style.setProperty('--k', k); });
+  function activate(i) {
+    scenes.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+    dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+  }
+  if (motion && hasIO && scenes.length) {
+    activate(0);
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.story-steps > div'));
+    var stepIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) activate(steps.indexOf(en.target));
+      });
+    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+    steps.forEach(function (s) { stepIO.observe(s); });
+  } else {
+    scenes.forEach(function (s) { s.classList.add('is-active'); });
+  }
 
-  // Scroll reveal (IntersectionObserver only, no scroll listeners)
-  var targets = document.querySelectorAll('.reveal, .gallery');
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !('IntersectionObserver' in window)) {
+  /* ---------- Reveal ---------- */
+  var targets = document.querySelectorAll('.reveal');
+  if (!motion || !hasIO) {
     targets.forEach(function (el) { el.classList.add('in'); });
     return;
   }
